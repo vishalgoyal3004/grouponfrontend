@@ -56,9 +56,6 @@ export default function ReusableAutocomplete({
           />
           {option?.title}
         </Box>
-        // <li {...props} key={option.title}>
-        //   {option.title}
-        // </li>
       )}
     />
   )
