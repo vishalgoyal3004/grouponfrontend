@@ -1,3 +1,4 @@
+import React from "react"
 import { Box, Card, CardMedia, Container } from "@mui/material"
 import axios from "axios"
 import { useState } from "react"
@@ -78,6 +79,7 @@ function WikiPedia() {
         options={[...searchHistoryRecords, ...articleList]}
         loading={loading}
         inputValue={articleSearchInput}
+        name="SearchWikipedia"
         onInputChange={handleInputChange}
         onChange={handleSearchHistory}
         placeholder={"Search Wikipedia Article"}

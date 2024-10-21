@@ -1,3 +1,4 @@
+import React from "react"
 import { Autocomplete, Box, TextField } from "@mui/material"
 import VirtualizedList from "../components/VirtualizedList"
 import PropTypes from "prop-types"
@@ -9,6 +10,7 @@ export default function ReusableAutocomplete({
   inputValue,
   onChange,
   onInputChange,
+  name,
 }) {
   return (
     <Autocomplete
@@ -18,7 +20,8 @@ export default function ReusableAutocomplete({
           borderRadius: "1rem",
         },
       }}
-      name="wiki-search-Input"
+      data-testid={name}
+      name={name}
       options={options}
       getOptionLabel={(option) => option.title || option}
       loading={loading}
@@ -30,6 +33,7 @@ export default function ReusableAutocomplete({
         <TextField
           {...params}
           placeholder={placeholder}
+          data-testid="input-auto"
           variant="outlined"
           fullWidth
           slotProps={{
@@ -68,4 +72,5 @@ ReusableAutocomplete.propTypes = {
   inputValue: PropTypes.string,
   onChange: PropTypes.func,
   onInputChange: PropTypes.func,
+  name: PropTypes.string,
 }

@@ -34,3 +34,9 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 - Eslint and prettier is used for defining the rules for linting errors and code beatufiying.
 - Roboto fonts are loaded from google API and is placed in index.html file.
 - Vitualised List is used for performance and feedback (loading state is shown) when fetching data.
+- The searched input is debounced, ensuring the API req are only send after user stops typing, I am using MUI inbuilt debounce feature here.
+
+# Further Enhancements
+
+- Refinement of the Theme provider to remove hardcoded designs in components.
+- Better UI/UX
