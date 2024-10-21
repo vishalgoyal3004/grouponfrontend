@@ -11,7 +11,7 @@ function WikiPedia() {
   const [searchHistoryRecords, setSearchHistoryRecords] = useState([])
   const [articleDetails, setArticleDetails] = useState(null)
 
-  const handleSearch1 = async (searchInput) => {
+  const handleSearch = async (searchInput) => {
     if (searchInput.trim() === "") return
     try {
       setLoading(true)
@@ -38,7 +38,7 @@ function WikiPedia() {
     setDebTimeOut(
       setTimeout(() => {
         if (articleSearchInput) {
-          handleSearch1(articleSearchInput).then((results) => {
+          handleSearch(articleSearchInput).then((results) => {
             setArticleList(results)
           })
         }
