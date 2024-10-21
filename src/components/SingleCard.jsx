@@ -1,5 +1,7 @@
 import { CardContent, Card, Typography, CardMedia, Box } from "@mui/material"
 import Colors from "../styles/Colors"
+import PropTypes from "prop-types"
+
 export default function SingleCard({ data }) {
   return (
     <Card sx={{ display: "flex", borderColor: Colors.grp.green }}>
@@ -24,4 +26,7 @@ export default function SingleCard({ data }) {
       </Box>
     </Card>
   )
+}
+SingleCard.propTypes = {
+  data: PropTypes.array,
 }

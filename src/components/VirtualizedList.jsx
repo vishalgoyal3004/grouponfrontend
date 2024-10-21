@@ -1,5 +1,6 @@
 import { forwardRef } from "react"
 import { FixedSizeList } from "react-window"
+import PropTypes from "prop-types"
 
 const VirtualizedList = forwardRef(function VirtualizedList(props, ref) {
   const { children, ...other } = props
@@ -18,3 +19,10 @@ const VirtualizedList = forwardRef(function VirtualizedList(props, ref) {
   )
 })
 export default VirtualizedList
+
+VirtualizedList.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
+}

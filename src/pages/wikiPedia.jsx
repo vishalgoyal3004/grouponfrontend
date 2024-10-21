@@ -9,7 +9,7 @@ function WikiPedia() {
   const [articleSearchInput, setArticleSearchInput] = useState("")
   const [loading, setLoading] = useState(false)
   const [searchHistoryRecords, setSearchHistoryRecords] = useState([])
-  const [articleDetails, setArticleDetails] = useState([])
+  const [articleDetails, setArticleDetails] = useState(null)
 
   const handleSearch1 = async (searchInput) => {
     if (searchInput.trim() === "") return

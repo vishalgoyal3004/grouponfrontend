@@ -8,9 +8,9 @@ import {
   CardMedia,
 } from "@mui/material"
 import Grid from "@mui/material/Grid2"
+import PropTypes from "prop-types"
 
 export default function ReusableCard({ data }) {
-  console.log("data", data)
   return (
     <Container>
       <Grid container spacing={3} marginTop={"2rem"} alignItems={"center"}>
@@ -45,4 +45,8 @@ export default function ReusableCard({ data }) {
       </Grid>
     </Container>
   )
+}
+
+ReusableCard.propTypes = {
+  data: PropTypes.array,
 }

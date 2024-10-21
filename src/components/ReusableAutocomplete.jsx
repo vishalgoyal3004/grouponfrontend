@@ -1,5 +1,6 @@
 import { Autocomplete, Box, TextField } from "@mui/material"
 import VirtualizedList from "../components/VirtualizedList"
+import PropTypes from "prop-types"
 
 export default function ReusableAutocomplete({
   options,
@@ -61,4 +62,13 @@ export default function ReusableAutocomplete({
       )}
     />
   )
+}
+
+ReusableAutocomplete.propTypes = {
+  options: PropTypes.array,
+  placeholder: PropTypes.string,
+  loading: PropTypes.bool,
+  inputValue: PropTypes.string,
+  onChange: PropTypes.func,
+  onInputChange: PropTypes.func,
 }
