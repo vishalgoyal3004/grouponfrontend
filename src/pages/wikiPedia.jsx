@@ -1,82 +1,92 @@
-import {
-  Box,
-  Button,
-  Container,
-  TextField,
-  Typography,
-  InputAdornment,
-  IconButton,
-} from "@mui/material"
+import { Box, Card, CardMedia, Container } from "@mui/material"
 import axios from "axios"
 import { useState } from "react"
-import ReusableCard from "../components/ReusableCard"
-import SearchIcon from "@mui/icons-material/Search"
-
+import ReusableAutocomplete from "../components/ReusableAutocomplete"
+import SingleCard from "../components/SingleCard"
 function WikiPedia() {
   const [articleList, setArticleList] = useState([])
-  const [articleSearch, setArticleSearch] = useState({ article: "" })
+  const [debTimeOut, setDebTimeOut] = useState(null)
+  const [articleSearchInput, setArticleSearchInput] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [searchHistoryRecords, setSearchHistoryRecords] = useState([])
+  const [articleDetails, setArticleDetails] = useState([])
 
-  const handleInputChange = (e) => {
-    setArticleSearch((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }))
-  }
-
-  const handleSearch = async () => {
-    if (articleSearch.article.trim() === "") return
+  const handleSearch1 = async (searchInput) => {
+    if (searchInput.trim() === "") return
     try {
+      setLoading(true)
       const responseData = await axios.get(
-        `http://localhost:4000/search?article=${articleSearch.article}`
+        `http://localhost:4000/search?article=${searchInput}`
       )
       setArticleList(responseData.data)
+      setLoading(false)
+      return Object.keys(responseData.data).map((key) => ({
+        title: responseData.data[key]?.title,
+        extract: responseData.data[key]?.extract,
+        pageid: responseData.data[key]?.pageid,
+        thumbnail: responseData.data[key]?.thumbnail,
+      }))
     } catch (error) {
       console.log("error")
     }
   }
+  const handleInputChange = (e, newValue) => {
+    setArticleSearchInput(newValue)
+    if (debTimeOut) {
+      clearTimeout(debTimeOut)
+    }
+    setDebTimeOut(
+      setTimeout(() => {
+        if (articleSearchInput) {
+          handleSearch1(articleSearchInput).then((results) => {
+            setArticleList(results)
+          })
+        }
+      }, 500)
+    )
+  }
+  const handleSearchHistory = (e, updatedValue) => {
+    if (
+      updatedValue &&
+      !searchHistoryRecords.includes(updatedValue.title || updatedValue)
+    ) {
+      setSearchHistoryRecords([
+        updatedValue.title || updatedValue,
+        ...searchHistoryRecords,
+      ])
+      setArticleDetails({
+        title: updatedValue.title,
+        extract: updatedValue.extract,
+        pageid: updatedValue.pageid,
+        thumbnail: updatedValue.thumbnail,
+      })
+    }
+  }
+
   return (
     <Container style={{ padding: "5rem" }}>
-      <Typography
-        style={{ textAlign: "center" }}
-        variant="h3"
-        marginBottom={"1rem"}
-      >
-        Wikipedia
-      </Typography>
-      <TextField
-        sx={{
-          borderRadius: "1rem",
-          "& .MuiOutlinedInput-root": {
-            borderRadius: "1rem",
-          },
-        }}
-        name="article"
-        placeholder="Search Wikipedia Article"
-        variant="outlined"
-        value={articleSearch.article}
-        onChange={handleInputChange}
-        fullWidth
-        slotProps={{
-          input: {
-            endAdornment: (
-              <InputAdornment
-                style={{ backgroundColor: "lightblue" }}
-                position="end"
-              >
-                <IconButton onClick={handleSearch}>
-                  <SearchIcon />
-                </IconButton>
-              </InputAdornment>
-            ),
-          },
-        }}
-      />
-      <Box textAlign={"center"} marginTop={"2rem"}>
-        <Button variant="outlined" onClick={handleSearch}>
-          Search
-        </Button>
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Card sx={{ minWidth: 500, marginBottom: "3rem" }}>
+          <CardMedia
+            component="img"
+            image="/images/wikipedia.jpg"
+            sx={{ height: 150 }}
+          />
+        </Card>
       </Box>
-      {articleList && <ReusableCard data={articleList} />}
+      <ReusableAutocomplete
+        options={[...searchHistoryRecords, ...articleList]}
+        loading={loading}
+        inputValue={articleSearchInput}
+        onInputChange={handleInputChange}
+        onChange={handleSearchHistory}
+        placeholder={"Search Wikipedia Article"}
+      />
+      {articleDetails && (
+        <Box sx={{ marginTop: "5rem" }}>
+          <SingleCard data={articleDetails} />
+        </Box>
+      )}
     </Container>
   )
 }

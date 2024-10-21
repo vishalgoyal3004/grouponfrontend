@@ -10,6 +10,7 @@ import {
 import Grid from "@mui/material/Grid2"
 
 export default function ReusableCard({ data }) {
+  console.log("data", data)
   return (
     <Container>
       <Grid container spacing={3} marginTop={"2rem"} alignItems={"center"}>
